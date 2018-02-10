@@ -1,14 +1,45 @@
 import random
+from django.db.models import Q
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import View
+from django.views.generic import TemplateView, ListView, DetailView
 
 from .models import RestaurantLocation
 
 def restaurant_listview(request):
     template_name = 'restaurants/restaurants_list.html'
-    query_set = RestaurantLocation.objects.all()
+    queryset = RestaurantLocation.objects.all()
     context = {
-        "object_list": query_set
+        "object_list": queryset
     }
     return render(request, template_name, context)
+
+class RestaurantListView(ListView):
+    template_name = 'restaurants/restaurants_list.html'
+
+    def get_queryset(self):
+        print(self.kwargs)
+        slug = self.kwargs.get("slug")
+        if slug:
+            queryset = queryset = RestaurantLocation.objects.filter(
+                Q(category__iexact=slug) |
+                Q(category__contains=slug)
+            )
+        else:
+            queryset = queryset = RestaurantLocation.objects.all()
+        return queryset
+
+class RestaurantDetailView(DetailView):
+    queryset = queryset = RestaurantLocation.objects.all()
+
+    def get_context_data(self, *args, **kwargs):
+        print(self.kwargs)
+        context = super(RestaurantDetailView, self).get_context_data(*args, **kwargs)
+        print(context)
+        return context
+
+    def get_object(self, *args, **kwargs):
+        rest_id = self.kwargs.get('rest_id')
+        obj = get_object_or_404(RestaurantLocation, id=rest_id)
+        return obj
