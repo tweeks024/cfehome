@@ -15,6 +15,15 @@ def restaurant_listview(request):
     }
     return render(request, template_name, context)
 
+def restaurant_detailsview(request, slug):
+    template_name = 'restaurants/restaurants_detail.html'
+    obj = RestaurantLocation.objects.get(slug=slug)
+    context = {
+        "object": obj
+    }
+    return render(request, template_name, context)
+
+
 class RestaurantListView(ListView):
     template_name = 'restaurants/restaurants_list.html'
 
@@ -38,7 +47,7 @@ class RestaurantDetailView(DetailView):
         context = super(RestaurantDetailView, self).get_context_data(*args, **kwargs)
         print(context)
         return context
-    # 
+    #
     # def get_object(self, *args, **kwargs):
     #     rest_id = self.kwargs.get('rest_id')
     #     obj = get_object_or_404(RestaurantLocation, id=rest_id)
