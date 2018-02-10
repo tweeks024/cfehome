@@ -7,6 +7,7 @@
 
 <ul>
   {% for obj in object_list %}
-    <li>{{ obj }} {{ obj.location }} {{ obj.category }} {{ obj.timestamp }} {{ obj.updated }}</li>
+    <li><a href='/restaurants/{{ obj.slug }}/'>{{ obj }}</a></li>
   {% endfor %}
+</ul>
 {% endblock content %}
