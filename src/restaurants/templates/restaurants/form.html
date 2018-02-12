@@ -4,10 +4,11 @@
 
 {% block content %}
 <h1>{{ object.title }}Add Restaurant</h1>
+{% if form.errors %}
+{{ form.errors }}
+{% endif %}
 <form method='POST'> {% csrf_token %}
-  <input type='text' name='title' placeholder="Your Title">
-  <input type='text' name='location' placeholder="Your Location">
-  <input type='text' name='category' placeholder="Your Category">
+  {{ form.as_p }}
   <button type='submit'>Save</button>
 </form>
 {% endblock content %}
