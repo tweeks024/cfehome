@@ -1,6 +1,7 @@
 from django import forms
 
 from .models import RestaurantLocation
+from .validators import validate_category
 
 class RestaurantCreateForm(forms.Form):
     name            = forms.CharField()

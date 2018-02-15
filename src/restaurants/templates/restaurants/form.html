@@ -5,7 +5,7 @@
 {% block content %}
 <h1>{{ object.title }}Add Restaurant</h1>
 {% if form.errors %}
-{{ form.errors }}
+{{ form.errors.non_field_errors }}
 {% endif %}
 <form method='POST'> {% csrf_token %}
   {{ form.as_p }}
